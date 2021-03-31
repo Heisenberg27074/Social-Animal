@@ -3,5 +3,5 @@ module.exports.home = function(req, res){
 }
 
 module.exports.login = (req,res) => {
-    return res.end('<p>Login to our website</p>');
+    return res.end('<h1>Login to our website</h1>');
 }
