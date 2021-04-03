@@ -6,7 +6,7 @@
  const db = require('./config/mongoose');
 
 
- app .use(express.urlencoded());
+ app.use(express.urlencoded());
  app.use(cookieParser());
 //  use express router
 app.use('/',require('./routes'));
