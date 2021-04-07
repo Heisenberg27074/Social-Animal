@@ -1,19 +1,37 @@
 <html>
-    <head>
-        <title>
-            <%= title %>
-        </title>
-    </head>
-    <body>
-        <h1>Codeial / <%= title %> </h1>
-    </body>
-    <section id="feed-posts">
-        <h4>Posts</h4>
-        <form action="" id="new-post-form" method = "POST">
-            <textarea name="content" id="" cols="30" rows="3" placeholder="What's in your mind?">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <h1>Codeial / <%= title %></h1>
+</body>
+<section id="feed-posts">
+    <h4>Posts</h4>
+    <form action="/posts/create" id="new-post-form" method="POST">
+        <textarea name="content" cols="30" rows="3" placeholder="Type here ..."></textarea>
+        <input type="submit" value="Post">
+    </form>
+</section>
+<div id="posts-container">
+    <ul>
+        <% for(let i of posts) { %>
+
+            <li>
+                <p>
+                    <%= i.user.name %>
+                    <br>
+                    <%= i.content %>
+                </p>
                 
-            </textarea>
-            <input type="submit" value="Post">
-        </form>
-    </section>
+            </li>
+
+        <% } %>
+    </ul>
+</div>
+
+
 </html>
