@@ -1,0 +1,23 @@
+<li>
+    <p>
+        <% if(locals.user && locals.user.id==comment.user.id) { %>
+            <a href="/comments/destroy/<%= comment.id %>">X</a>
+        <% } %>
+                <!-- TOD DO LATER ========> ADD A link to let author of post delete the comments on his post   -->
+                <!-- <% if(locals.user && locals.user.id==post.user.id) { %>
+                    <a href="/posts/hide/<%= post.user.id %>">Hide</a>
+                <%}%> -->
+
+                <small>
+                    <%= comment.user.name %>
+                </small>
+                <br>
+                <p>
+                    <%= comment.content %>
+                </p>
+
+
+            
+
+    </p>
+</li>
