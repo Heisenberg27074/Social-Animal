@@ -2,24 +2,31 @@ const User = require('../models/user');
 
 
 
-module.exports.profile = (req, res) => {
-    User.findById(req.params.id, (err, user) => {
+module.exports.profile = async (req, res) => {
+    try {
+        let user = await User.findById(req.params.id);
         return res.render('user_profile', {
             title: "User Profile",
             profile_user: user
-
         });
-    });
+    } catch (err) {
+        console.log('Error', err);
+        return;
+    }
+
 }
 
 
 // Update user details
-module.exports.update = (req, res) =>{
-    if(req.user.id == req.params.id){
-        User.findByIdAndUpdate(req.params.id , req.body , (err, user)=>{
+module.exports.update = (req, res) => {
+    if (req.user.id == req.params.id) {
+        User.findByIdAndUpdate(req.params.id, req.body, (err, user) => {
+            req.flash('success', 'User details updated');
             return res.redirect('back');
         })
-    }else{
+    } else {
+        req.flash('error', 'Something went wrong!');
+
         return res.status(401).send('Unauthorized');
     }
 }
@@ -46,6 +53,7 @@ module.exports.signIn = (req, res) => {
 // get the signUp data
 module.exports.create = (req, res) => {
     if (req.body.password != req.body.confirm_password) {
+        req.flash('error', 'Password do not match');
         return res.redirect('back');
     }
     User.findOne({ email: req.body.email }, function (err, user) {
@@ -53,19 +61,25 @@ module.exports.create = (req, res) => {
         if (!user) {
             User.create(req.body, function (err, user) {
                 if (err) { console.log('error in creating user while signing up'); return }
+
+                req.flash('success', 'Account created successfully, Sign In' );
                 return res.redirect('/users/sign-in');
             });
         } else {
+            req.flash('warning', 'This email is already associated to an account');
+
             return res.redirect('back');
         }
     })
 }
 // sign n and create a session for user
 module.exports.createSession = (req, res) => {
+    req.flash('success', 'Logged In Successfully');
     return res.redirect('/');
 }
 
 module.exports.destroySession = (req, res) => {
     req.logout();
+    req.flash('success', 'You have logged out!');
     return res.redirect('/');
 }
