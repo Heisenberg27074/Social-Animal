@@ -10,6 +10,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.min.js"
         integrity="sha512-lOrm9FgT1LKOJRUXF3tp6QaMorJftUjowOWiDcG5GFZ/q7ukof19V0HKx/GWzXCdt9zYju3/KhBNdCLzK8b90Q=="
         crossorigin="anonymous"></script>
+
+        <!-- jquery ajax cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/css/layout.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/footer.css">
@@ -19,66 +24,66 @@
 
 <body>
     <%- include('_header'); %>
-        
-    <main id="layout-main">
 
-        <%- body %>
+        <main id="layout-main">
 
-    </main>
+            <%- body %>
 
-
+        </main>
 
 
-    <%- include('_footer'); %>
 
-    <%- script %>
-    
-    <script>
-        <%if(flash.success && flash.success.length> 0){%>
-           new Noty({
-                theme: 'relax',
-                text: "<%= flash.success %>",
-                type: 'success',
-                layout: 'topRight',
-                timeout: 1200
-           }).show();
 
-        <%}%>
+        <%- include('_footer'); %>
 
-        <%if(flash.error && flash.error.length> 0){%>
-           new Noty({
-                theme: 'relax',
-                text: "<%= flash.error %>",
-                type: 'error',
-                layout: 'topRight',
-                timeout: 1300
-           }).show();
+            <%- script %>
 
-        <%}%>
-        <%if(flash.warning && flash.warning.length> 0){%>
-           new Noty({
-                theme: 'relax',
-                text: "<%= flash.warning %>",
-                type: 'warning',
-                layout: 'topRight',
-                timeout: 1500
-           }).show();
-
-        <%}%>
-        <%if(flash.info && flash.info.length> 0){%>
-           new Noty({
-                theme: 'relax',
-                text: "<%= flash.info %>",
-                type: 'info',
-                layout: 'topRight',
-                timeout: 1500
-           }).show();
+                <script>
+        <%if (flash.success && flash.success.length > 0) {%>
+                        new Noty({
+                            theme: 'relax',
+                            text: "<%= flash.success %>",
+                            type: 'success',
+                            layout: 'topRight',
+                            timeout: 1200
+                        }).show();
 
         <%}%>
 
+        <%if (flash.error && flash.error.length > 0) {%>
+                        new Noty({
+                            theme: 'relax',
+                            text: "<%= flash.error %>",
+                            type: 'error',
+                            layout: 'topRight',
+                            timeout: 1300
+                        }).show();
 
-    </script>
-                
+        <%}%>
+        <%if (flash.warning && flash.warning.length > 0) {%>
+                        new Noty({
+                            theme: 'relax',
+                            text: "<%= flash.warning %>",
+                            type: 'warning',
+                            layout: 'topRight',
+                            timeout: 1500
+                        }).show();
+
+        <%}%>
+        <%if (flash.info && flash.info.length > 0) {%>
+                        new Noty({
+                            theme: 'relax',
+                            text: "<%= flash.info %>",
+                            type: 'info',
+                            layout: 'topRight',
+                            timeout: 1500
+                        }).show();
+
+        <%}%>
+
+
+                </script>
+
 
 </body>
 
