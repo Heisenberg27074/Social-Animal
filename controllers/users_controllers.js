@@ -1,5 +1,6 @@
 const User = require('../models/user');
-
+const fs = require('fs');
+const path = require('path');
 
 
 module.exports.profile = async (req, res) => {
@@ -18,15 +19,49 @@ module.exports.profile = async (req, res) => {
 
 
 // Update user details
-module.exports.update = (req, res) => {
+module.exports.update = async (req, res) => {
+    // if (req.user.id == req.params.id) {
+    //     User.findByIdAndUpdate(req.params.id, req.body, (err, user) => {
+    //         req.flash('success', 'User details updated');
+    //         return res.redirect('back');
+    //     })
+    // } else {
+    //     req.flash('error', 'Something went wrong!');
+
+    //     return res.status(401).send('Unauthorized');
+    // }
     if (req.user.id == req.params.id) {
-        User.findByIdAndUpdate(req.params.id, req.body, (err, user) => {
-            req.flash('success', 'User details updated');
+        try {
+            let user = await User.findById(req.params.id);
+            User.uploadedAvatar(req, res, function (err) {
+                if (err) { console.log('****Multer Error', err) }
+
+                user.name = req.body.name;
+                user.email = req.body.email;
+
+                if (req.file) {
+
+                    if (user.avatar) {
+                        try{
+                            fs.unlinkSync(path.join(__dirname, '..', user.avatar));
+                        }catch(err){
+                            console.log(err);
+                        }
+                    }
+                    // this is saving the path of the uploaded file in the user   
+                    user.avatar = User.avatarPath + '/' + req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            });
+        } catch (err) {
+            req.flash('error', err);
             return res.redirect('back');
-        })
+        }
+
+
     } else {
         req.flash('error', 'Something went wrong!');
-
         return res.status(401).send('Unauthorized');
     }
 }
@@ -62,7 +97,7 @@ module.exports.create = (req, res) => {
             User.create(req.body, function (err, user) {
                 if (err) { console.log('error in creating user while signing up'); return }
 
-                req.flash('success', 'Account created successfully, Sign In' );
+                req.flash('success', 'Account created successfully, Sign In');
                 return res.redirect('/users/sign-in');
             });
         } else {
